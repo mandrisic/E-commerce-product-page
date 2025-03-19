@@ -1,0 +1,287 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+
+header {
+    position: relative;
+    background-color: $white;
+    padding: 2.5em;
+    width: 100%;
+    @include flexTemplate(row, space-between, center);
+    @include respond('tablet'){
+        padding: 2.5em 0;
+        width: 92%;
+        border-bottom: .2em solid $light-grayish-blue;
+    }
+    @include respond('laptop', 'desktop'){
+        width: 77%;
+    }
+
+    .nav-container {
+        @include flexTemplate(row-reverse, space-between, center);
+        gap: 1.7em;
+        @include respond('tablet', 'laptop', 'desktop'){
+            flex-direction: row;
+        }
+        img:first-child {
+            padding-bottom: .25em;
+            @include respond('tablet'){
+                height: 2em;
+            }
+
+            @include respond('laptop', 'desktop'){
+                height: auto;
+            }
+        }
+
+        #menu {
+            cursor: pointer;
+            @include respond('tablet', 'laptop', 'desktop'){
+                display: none;
+            }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 67%;
+            background-color: $white;
+            z-index: 1000;
+            padding: 2.5em;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            @include respond('tablet', 'laptop', 'desktop'){
+                position: relative;
+                height: auto;
+                width: 100%;
+                flex-direction: row;
+                transform: translateX(0%);
+                opacity: 1;
+                z-index: 800;
+            }
+
+            #close {
+                @include respond('tablet', 'laptop', 'desktop'){
+                    display: none;
+                }
+            }
+
+            ul {
+                list-style-type: none;
+                @include flexTemplate(column, flex-start, flex-start);
+                gap: 2.2em;
+                padding-top: 5em;
+                @include respond('tablet', 'laptop', 'desktop'){
+                    @include flexTemplate(row, space-between, center);
+                    padding-top: 0;
+                }
+                
+                li a {
+                    position: relative;
+                    text-decoration: none;
+                    color: $very-dark-blue;
+                    font-size: 1.8rem;
+                    font-weight: $bold;
+                    @include respond('tablet'){
+                        font-size: 1.4rem;
+                        color: $grayish-blue;
+                        font-weight: $normal;
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            bottom: -3.65em;
+                            left: 0;
+                            width: 0;
+                            height: .25em;
+                            background-color: $orange;
+                            transition: width 0.3s ease-in-out;
+                        }
+                
+                        &:hover::after {
+                            width: 100%;
+                        }
+    
+                        &:hover {
+                            color: $very-dark-blue;
+                        }
+                    }
+                    @include respond('laptop', 'desktop'){
+                        font-size: 1.7rem;
+                        &::after {
+                            bottom: -3em;
+                        }
+                    }
+                }
+            }
+        }
+
+        .active {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+    }
+
+    .cart-container {
+        @include flexTemplate(row, space-between, center);
+        gap: 2.2em;
+        @include respond('tablet', 'laptop', 'desktop'){
+            gap: 4em;
+        }
+
+        #avatar {
+            height: 2.5em;
+            @include respond('tablet'){
+                height: 3.5em;
+            }
+            
+            @include respond('laptop', 'desktop'){
+                height: 5em;
+                cursor: pointer;
+                border: .2em solid transparent;
+                border-radius: 50%;
+                transition: border .3s ease;
+                &:hover {
+                    border-color: $orange;
+                }
+            }
+        }
+
+        .cart-icon {
+            position: relative;
+            #nav-cart {
+                cursor: pointer;
+            }
+
+            #number {
+                @include flexTemplate(row, center, center);
+                position: absolute;
+                font-size: 1rem;
+                color: $white;
+                border-radius: 50%;
+                width: 1.8em;
+                height: 1.8em;
+                top: -1em;
+                right: -1em;
+            }
+
+            #cart-details {
+                position: fixed;
+                top: 8.2em;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 500;
+                background-color: $white;
+                width: 96%;
+                border-radius: 1em;
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+                @include respond('tablet'){
+                    width: 50%;
+                    top: 12em;
+                }
+                @include respond('laptop', 'desktop'){
+                    position: absolute;
+                    width: 36em;
+                    top: 5em;
+                }
+
+                h3 {
+                    font-size: 1.6rem;
+                    padding: 1.5em;
+                    border-bottom: .14em solid $light-grayish-blue;
+                }
+
+                #cart-empty {
+                    text-align: center;
+                    width: 100%;
+                    padding: 3em 3em 4em 3em;
+                    color: $dark-grayish-blue;
+                    font-size: 1.6rem;
+                    font-weight: $bold;
+                }
+
+                #cart-full {
+                    padding: 2em 2.2em;
+                    @include flexTemplate(column, space-between, flex-start);
+                    gap: 2em;
+
+                    &.hidden {
+                        display: none;
+                    }
+
+                    .product-cart {
+                        width: 100%;
+                        @include flexTemplate(row, space-between, center);
+                        gap: 1em;
+                        
+                        img {
+                            width: 5em;
+                            border-radius: .5em;
+                        }
+    
+                        .details {
+                            @include flexTemplate(column, space-between, flex-start);
+                            gap: .5em;
+
+                            p {
+                                font-size: 1.6rem;
+                                color: $dark-grayish-blue;
+                            }
+
+                            strong {
+                                color: $very-dark-blue;
+                            }
+                        }
+                        
+    
+                        #delete {
+                            width: 1.5em;
+                            cursor: pointer;
+                        }
+                        
+                    }
+
+                    button {
+                        width: 100%;
+                        border: none;
+                        background-color: $orange;
+                        padding: 1.2em;
+                        margin-bottom: .5em;
+                        border-radius: .5em;
+                        color: $very-dark-blue;
+                        font-weight: $bold;
+                        font-family: $font;
+                        font-size: 1.6rem;
+                        cursor: pointer;
+                        transition: background-color .3s ease;
+
+                        &:hover {
+                            background-color: $light-orange;
+                        }
+                    }
+                }
+                
+            }
+            
+        }
+    }
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    background-color: $overlay;
+    z-index: 900;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.active {
+    opacity: 1;
+    visibility: visible;
+}

@@ -1,0 +1,11 @@
+@use '../global/variables' as *;
+
+footer { 
+    padding-bottom: 2em;
+    font-size: 1.2rem; 
+    text-align: center; 
+    color: $very-dark-blue;
+    a { 
+        color: $orange; 
+    }
+}
